@@ -78,28 +78,28 @@ public class LoginActivity extends AppCompatActivity {
 
             signupError.setVisibility(View.GONE);
 
-            // 1️⃣ 빈 값 검사
+            // 빈 값 검사
             if (id.isEmpty() || pw.isEmpty() || name.isEmpty()) {
                 signupError.setText("모든 항목을 입력해주세요.");
                 signupError.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // 2️⃣ 아이디 길이
+            // 아이디 길이
             if (id.length() < 4) {
                 signupError.setText("아이디는 4글자 이상이어야 합니다.");
                 signupError.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // 3️⃣ 비밀번호 조건 (8자 + 특수문자)
+            // 비밀번호 조건 (8자 + 특수문자)
             if (pw.length() < 8 || !pw.matches(".*[!@#$%^&*()].*")) {
                 signupError.setText("비밀번호는 8자 이상, 특수문자를 포함해야 합니다.");
                 signupError.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // 4️⃣ 아이디 중복
+            // 아이디 중복
             if (id.equals(savedId)) {
                 signupError.setText("이미 사용 중인 아이디입니다.");
                 signupError.setVisibility(View.VISIBLE);
