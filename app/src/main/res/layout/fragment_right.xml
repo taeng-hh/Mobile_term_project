@@ -4,19 +4,103 @@
     android:layout_height="match_parent"
     android:background="#FFE4E1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="오른쪽 페이지"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/logoutBtn"
-        android:text="로그아웃"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        <FrameLayout
+            android:id="@+id/top_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#FFB6C1">
 
+            <ImageView
+                android:id="@+id/character_image"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_gravity="center"
+                android:src="@drawable/character_base"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/clothes_image"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/face_image"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_gravity="center"
+                android:src="@drawable/face_default"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/hat_image"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter" />
+
+            <Button
+                android:id="@+id/btn_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="16dp"
+                android:text="초기화"
+                android:textSize="12sp"
+                android:backgroundTint="#88000000"
+                android:textColor="#FFFFFF" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="#FFFFFF">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#DDDDDD"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:showDividers="middle"
+                    android:divider="?android:attr/listDivider">
+
+                    <Button android:id="@+id/btn_all" style="?android:attr/borderlessButtonStyle" android:layout_width="100dp" android:layout_height="match_parent" android:text="전체" android:background="@android:color/white"/>
+                    <Button android:id="@+id/btn_face" style="?android:attr/borderlessButtonStyle" android:layout_width="100dp" android:layout_height="match_parent" android:text="표정" android:background="@android:color/white"/>
+                    <Button android:id="@+id/btn_hat" style="?android:attr/borderlessButtonStyle" android:layout_width="100dp" android:layout_height="match_parent" android:text="모자" android:background="@android:color/white"/>
+                    <Button android:id="@+id/btn_top" style="?android:attr/borderlessButtonStyle" android:layout_width="100dp" android:layout_height="match_parent" android:text="옷" android:background="@android:color/white"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <GridLayout
+                    android:id="@+id/image_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:padding="8dp"
+                    android:alignmentMode="alignMargins">
+                </GridLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>
