@@ -8,16 +8,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background" />
+        android:src="@drawable/interior_hill" />
 
-    <!-- 메인 캐릭터 등 기본 화면 -->
-    <ImageView
-        android:id="@+id/characterImage"
+    <!-- 캐릭터 레이어 묶음 -->
+    <FrameLayout
         android:layout_width="220dp"
         android:layout_height="220dp"
-        android:layout_gravity="center"
-        android:scaleType="fitCenter"
-        android:src="@drawable/sample1" />
+        android:layout_gravity="center">
+
+        <!-- 기본 캐릭터 몸체 -->
+        <ImageView
+            android:id="@+id/characterImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/character_base" />
+
+        <!-- 옷 -->
+        <ImageView
+            android:id="@+id/clothes_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+
+        <!-- 표정 -->
+        <ImageView
+            android:id="@+id/face_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+
+        <!-- 모자 -->
+        <ImageView
+            android:id="@+id/hat_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+
+    </FrameLayout>
 
     <!-- 설정 버튼 -->
     <ImageButton
