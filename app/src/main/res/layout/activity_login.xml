@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
+
     <!-- 회원가입 overlay -->
     <LinearLayout
         android:id="@+id/signupLayout"
@@ -119,5 +120,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </FrameLayout>
