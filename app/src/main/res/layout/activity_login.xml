@@ -2,60 +2,66 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!-- 로그인 화면 -->
     <LinearLayout
         android:id="@+id/loginLayout"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <EditText
             android:id="@+id/idInput"
-            android:hint="아이디"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="아이디"
+            android:inputType="textVisiblePassword"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
 
         <EditText
             android:id="@+id/pwInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="비밀번호"
             android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*()"/>
 
         <Button
             android:id="@+id/loginBtn"
-            android:text="로그인"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="로그인" />
 
         <Button
             android:id="@+id/goSignupBtn"
-            android:text="회원가입"
-            android:backgroundTint="@color/black"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:text="회원가입"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/loginError"
-            android:textColor="#FF0000"
-            android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            android:visibility="gone" />
     </LinearLayout>
 
 
     <!-- 회원가입 overlay -->
     <LinearLayout
         android:id="@+id/signupLayout"
-        android:orientation="vertical"
-        android:background="#FFFFFF"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <!-- Back 버튼 -->
         <LinearLayout
@@ -65,57 +71,97 @@
 
             <Button
                 android:id="@+id/backBtn"
-                android:text="← Back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="Back" />
+
         </LinearLayout>
 
         <!-- 중앙 입력 영역 -->
+        <!--키보드에 가려지지 않도록 200dp margin 줌-->
         <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="24dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:layout_marginBottom="200dp">
 
-            <EditText
-                android:id="@+id/signupId"
-                android:hint="아이디"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/signupId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="아이디"
+                    android:inputType="textVisiblePassword"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+
+                <Button
+                    android:id="@+id/checkIdBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="중복확인" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/idError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/signupPw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="비밀번호"
                 android:inputType="textPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*()"/>
+
+            <TextView
+                android:id="@+id/pwError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                android:visibility="gone" />
 
             <!--  닉네임 추가 -->
             <EditText
                 android:id="@+id/signupName"
-                android:hint="닉네임"
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:layout_marginTop="16dp"
+                android:hint="닉네임"
+                android:inputType="textPersonName" />
 
-            <!-- 에러 메시지 -->
+            <TextView
+                android:id="@+id/nameError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                android:visibility="gone" />
+
+            <!-- 에러 메시지: id, pw 에러 따로 구분해서 사용 안함(혹시 몰라서 남겨둠)
             <TextView
                 android:id="@+id/signupError"
                 android:textColor="#FF0000"
                 android:visibility="gone"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"/>-->
 
             <Button
                 android:id="@+id/signupBtn"
-                android:text="회원가입 완료"
-                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="회원가입 완료" />
 
         </LinearLayout>
 

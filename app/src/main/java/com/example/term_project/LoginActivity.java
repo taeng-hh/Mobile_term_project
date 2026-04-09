@@ -15,15 +15,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LoginActivity extends AppCompatActivity {
 
     LinearLayout signupLayout;
-
     EditText idInput, pwInput;
     EditText signupId, signupPw, signupName;
-
-    TextView signupError, loginError;
-
+    TextView loginError;
     Button loginBtn, goSignupBtn, signupBtn, backBtn;
-
     SharedPreferences pref;
+    TextView idError, pwError, nameError;
+    Button checkIdBtn;
+    boolean isIdChecked = false;
+    String checkedId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,11 @@ public class LoginActivity extends AppCompatActivity {
         signupPw = findViewById(R.id.signupPw);
         signupName = findViewById(R.id.signupName);
 
-        signupError = findViewById(R.id.signupError);
         loginError = findViewById(R.id.loginError);
+        idError = findViewById(R.id.idError);
+        pwError = findViewById(R.id.pwError);
+        nameError = findViewById(R.id.nameError);
+        checkIdBtn = findViewById(R.id.checkIdBtn);
 
         loginBtn = findViewById(R.id.loginBtn);
         goSignupBtn = findViewById(R.id.goSignupBtn);
@@ -67,6 +70,60 @@ public class LoginActivity extends AppCompatActivity {
             signupLayout.setVisibility(View.GONE);
         });
 
+        // 아이디 중복 확인
+        checkIdBtn.setOnClickListener(v -> {
+            String id = signupId.getText().toString().trim();
+            String savedId = pref.getString("id", "");
+
+            idError.setVisibility(View.VISIBLE);
+
+            if (id.isEmpty()) {
+                idError.setText("아이디를 입력해주세요.");
+                isIdChecked = false;
+                return;
+            }
+
+            if (id.length() < 4) {
+                idError.setText("아이디는 4글자 이상입니다.");
+                isIdChecked = false;
+                return;
+            }
+
+            if (!id.matches("^[a-zA-Z0-9]+$")) {
+                idError.setText("아이디는 영어와 숫자만 가능합니다.");
+                idError.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            if (id.equals(savedId)) {
+                idError.setText("이미 사용 중인 아이디입니다.");
+                isIdChecked = false;
+                idError.setTextColor(getColor(android.R.color.holo_red_dark));
+            } else {
+                idError.setText("✔ 사용 가능한 아이디입니다.");
+                isIdChecked = true;
+                checkedId = id;
+                idError.setTextColor(getColor(android.R.color.holo_green_dark));
+            }
+        });
+
+        // 아이디 중복 확인 후 아이디 수정하면 다시 확인하도록
+        signupId.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isIdChecked = false;
+                idError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+            }
+        });
+
         // 회원가입
         signupBtn.setOnClickListener(v -> {
 
@@ -76,35 +133,64 @@ public class LoginActivity extends AppCompatActivity {
 
             String savedId = pref.getString("id", "");
 
-            signupError.setVisibility(View.GONE);
 
             // 빈 값 검사
-            if (id.isEmpty() || pw.isEmpty() || name.isEmpty()) {
-                signupError.setText("모든 항목을 입력해주세요.");
-                signupError.setVisibility(View.VISIBLE);
+            idError.setVisibility(View.GONE);
+            pwError.setVisibility(View.GONE);
+            nameError.setVisibility(View.GONE);
+
+            // 아이디 검사
+            if (id.isEmpty()) {
+                idError.setText("아이디를 입력해주세요.");
+                idError.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // 아이디 길이
+            if (!id.matches("^[a-zA-Z0-9]+$")) {
+                idError.setText("아이디는 영어와 숫자만 가능합니다.");
+                idError.setVisibility(View.VISIBLE);
+                return;
+            }
+
             if (id.length() < 4) {
-                signupError.setText("아이디는 4글자 이상이어야 합니다.");
-                signupError.setVisibility(View.VISIBLE);
+                idError.setText("아이디는 4글자 이상이어야 합니다.");
+                idError.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // 비밀번호 조건 (8자 + 특수문자)
+            if (!isIdChecked) {
+                idError.setText("아이디 중복 확인을 해주세요.");
+                idError.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            if (!id.equals(checkedId)) {
+                idError.setText("아이디를 다시 확인해주세요.");
+                idError.setVisibility(View.VISIBLE);
+                isIdChecked = false;
+                return;
+            }
+
+            // 비밀번호 검사
+            if (pw.isEmpty()) {
+                pwError.setText("비밀번호를 입력해주세요.");
+                pwError.setVisibility(View.VISIBLE);
+                return;
+            }
+
             if (pw.length() < 8 || !pw.matches(".*[!@#$%^&*()].*")) {
-                signupError.setText("비밀번호는 8자 이상, 특수문자를 포함해야 합니다.");
-                signupError.setVisibility(View.VISIBLE);
+                pwError.setText("비밀번호는 8자 이상, 특수문자 포함를 포함해야 합니다.");
+                pwError.setVisibility(View.VISIBLE);
                 return;
             }
 
-            // 아이디 중복
-            if (id.equals(savedId)) {
-                signupError.setText("이미 사용 중인 아이디입니다.");
-                signupError.setVisibility(View.VISIBLE);
+            // 닉네임 검사
+            if (name.isEmpty()) {
+                nameError.setText("닉네임을 입력해주세요.");
+                nameError.setVisibility(View.VISIBLE);
                 return;
             }
+
 
             // 저장
             SharedPreferences.Editor editor = pref.edit();
@@ -115,6 +201,8 @@ public class LoginActivity extends AppCompatActivity {
 
             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show();
             signupLayout.setVisibility(View.GONE);
+            isIdChecked = false;
+            checkedId = "";
         });
 
         // 로그인
