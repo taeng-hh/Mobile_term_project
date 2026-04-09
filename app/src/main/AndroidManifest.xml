@@ -13,7 +13,6 @@
         android:theme="@style/Theme.Term_Project">
 
         <!-- 로그인 화면 (앱 시작 화면) -->
-        <!--키보드 올라와도 가려지지 않도록 개선-->
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize"
