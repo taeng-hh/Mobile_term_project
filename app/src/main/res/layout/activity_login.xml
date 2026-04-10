@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E0DDD5"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
@@ -14,28 +15,79 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp">
+       <!-- 로고와 개인정보 입력창의 비율을 위해 사용 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"/>
+<!-- 로그인창에 로고 삽입 -->
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/logo" />
 
+        <!-- 로그인 화면 박스 설정 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#E0DDD5">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <!-- 아이디 박스 이펙트 설정-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="#F2EFE9"
+                    app:boxStrokeColor="#000000"
+                    app:hintTextColor="#000000"
+                    app:hintEnabled="true">
         <EditText
             android:id="@+id/idInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="아이디"
+            android:textColor="#000000"
             android:inputType="textVisiblePassword"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
-
+                </com.google.android.material.textfield.TextInputLayout>
+            <!-- 비밀번호 박스 이펙트 설정 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="#F2EFE9"
+                    app:boxStrokeColor="#000000"
+                    app:hintTextColor="#000000"
+                    app:hintEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/black"
+                    >
         <EditText
             android:id="@+id/pwInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호"
+            android:textColor="#000000"
             android:inputType="textPassword"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*()"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="로그인" />
+            android:text="로그인"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#E57373"/>
 
         <Button
             android:id="@+id/goSignupBtn"
@@ -51,6 +103,14 @@
             android:layout_height="wrap_content"
             android:textColor="#FF0000"
             android:visibility="gone" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        
+        <!-- 로그인창과 로고창의 비율을 위해 사용 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"/>
     </LinearLayout>
 
 
@@ -59,7 +119,7 @@
         android:id="@+id/signupLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
+        android:background="#F2EFE9"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -73,6 +133,8 @@
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#E0DDD5"
+                android:textColor="#000000"
                 android:text="Back" />
 
         </LinearLayout>
@@ -99,6 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="아이디"
+                    android:textColor="#000000"
                     android:inputType="textVisiblePassword"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
 
@@ -106,6 +169,8 @@
                     android:id="@+id/checkIdBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#E0DDD5"
+                    android:textColor="#000000"
                     android:text="중복확인" />
             </LinearLayout>
 
@@ -121,6 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="비밀번호"
+                android:textColor="#000000"
                 android:inputType="textPassword"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*()"/>
 
@@ -138,6 +204,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="닉네임"
+                android:textColor="#000000"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -161,6 +228,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:backgroundTint="#E0DDD5"
+                android:textColor="#000000"
                 android:text="회원가입 완료" />
 
         </LinearLayout>
