@@ -6,6 +6,7 @@
     android:paddingBottom="12dp"
     android:elevation="6dp">
 
+    <!-- 플레이어 이름 표시 -->
     <TextView
         android:id="@+id/tvPlayerName"
         android:layout_width="wrap_content"
@@ -18,8 +19,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:maxLines="1"
-        android:ellipsize="end"/>
+        android:ellipsize="end" />
 
+    <!-- 우측 재화 영역 -->
     <LinearLayout
         android:id="@+id/resourceLayout"
         android:layout_width="wrap_content"
@@ -27,24 +29,25 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp"
         android:layout_marginTop="28dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
+        <!-- 골드 아이콘 -->
+        <ImageView
+            android:id="@+id/imgGold"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_coins_stack"
+            android:contentDescription="gold icon" />
+
+        <!-- 골드 수치 -->
         <TextView
             android:id="@+id/tvGold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="Gold: 1200"
+            android:layout_marginStart="6dp"
+            android:text="1200"
             android:textColor="#FFD700"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvGem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gem: 35"
-            android:textColor="#00FFFF"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>

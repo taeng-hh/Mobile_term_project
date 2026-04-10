@@ -1,9 +1,9 @@
 package com.example.term_project;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.content.SharedPreferences;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +15,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TextView tvPlayerName;
     private TextView tvGold;
-    private TextView tvGem;
 
     // activity_main.xml에 추가한 overlay용 컨테이너
     private View fragmentContainer;
+
+    // 게임 재화(골드)
+    private int gold = 1200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         tvPlayerName = findViewById(R.id.tvPlayerName);
         tvGold = findViewById(R.id.tvGold);
-        tvGem = findViewById(R.id.tvGem);
         fragmentContainer = findViewById(R.id.fragment_container);
 
         // ViewPager 설정
@@ -42,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 상단 정보 표시
         tvPlayerName.setText(nickname);
-        tvGold.setText("Gold: 1200");
-        tvGem.setText("Gem: 35");
+        updateTopBar();
 
         // 뒤로가기 처리
         // overlay fragment가 열려 있으면 그것부터 닫고,
@@ -65,6 +65,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // 상단 골드 표시 갱신
+    public void updateTopBar() {
+        tvGold.setText(String.valueOf(gold));
+    }
+
+    // 골드 추가 ex)  ((MainActivity) getActivity()).addGold(50);
+    public void addGold(int amount) {
+        gold += amount;
+        updateTopBar();
+    }
+
+    // 골드 사용  ex)  boolean success = ((MainActivity) getActivity()).spendGold(200);
+    public boolean spendGold(int amount) {
+        if (gold >= amount) {
+            gold -= amount;
+            updateTopBar();
+            return true;
+        }
+        return false;
+    }
+
+    // 현재 골드 반환
+    public int getGold() {
+        return gold;
     }
 
     // ViewPager 위에 새로운 Fragment를 띄우는 함수
