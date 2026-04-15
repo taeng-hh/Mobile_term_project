@@ -140,4 +140,5 @@ updateMessage(CharacterState.NORMAL);
   //우선 고정된 값으로만 뒀음
   //추후에 구매 시, 퀴즈 맞췄을 시, 코인의 계산 기능을 추가해야함
    tvCoin.setText("100");
-   
+
+  - app 폴더 안에 google-services.json파일 추가
