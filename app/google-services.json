@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "582733129619",
+    "project_id": "mobiltermproject-db",
+    "storage_bucket": "mobiltermproject-db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582733129619:android:81bc5fea4c0c2b7b43aa66",
+        "android_client_info": {
+          "package_name": "com.example.term_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582733129619-rqh3ov5rn62n1a8t0d188ei30ce9ve0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.term_project",
+            "certificate_hash": "8c1e44ab579d891e559d7c19850fed2b1be5f2e7"
+          }
+        },
+        {
+          "client_id": "582733129619-a3ij41j3q3kgci447h5leqhts8g32ahh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7IIPmAn5dGf_IVSbuGkAotyfl4fO_v70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582733129619-a3ij41j3q3kgci447h5leqhts8g32ahh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
