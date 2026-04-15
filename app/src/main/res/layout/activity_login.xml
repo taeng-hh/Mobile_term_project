@@ -270,15 +270,6 @@
                         android:textColor="#FF0000"
                         android:visibility="gone" />
 
-                    <!-- 에러 메시지: id, pw 에러 따로 구분해서 사용 안함(혹시 몰라서 남겨둠)
-                    <TextView
-                        android:id="@+id/signupError"
-                        android:textColor="#FF0000"
-                        android:visibility="gone"
-                        android:layout_marginTop="8dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>-->
-
                         <!-- 회원가입 완료 버튼 색상 변경 -->
                     <Button
                         android:id="@+id/signupBtn"
