@@ -1,8 +1,12 @@
 package com.example.term_project;
 
-import android.animation.Animator;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,31 +17,44 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class QuizPlayFragment extends Fragment {
+
+    // 문제 출력용 뷰
     private TextView tvQuestion;
     private RadioGroup radioGroup;
     private RadioButton option1, option2, option3, option4;
     private Button btnSubmit;
 
-    private int totalSolvedCount = 0;     // 푼 문제 수
-    private int correctCount = 0;         // 맞춘 문제 수
-    private int earnedGold = 0;           // 최종 획득 골드
+    // 결과 집계용 변수
+    private int totalSolvedCount = 0;
+    private int correctCount = 0;
+    private int earnedGold = 0;
 
+    // 정답/오답 이펙트 관련 뷰
     private com.airbnb.lottie.LottieAnimationView lottieEffect;
     private View layoutResult;
     private TextView tvResultStatus;
 
+    // 문제 로딩용 객체
     private QuizRepository repository;
     private QuizQuestion currentQuestion;
+
+    // 현재 과목(스테이지) 번호
     private int currentSubjectId;
+
+    // 현재 문제 번호
     private int currentQuestionId = 1;
 
     public QuizPlayFragment() {
+        // 기본 생성자
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_quiz_play, container, false);
 
+        // 뷰 연결
         tvQuestion = view.findViewById(R.id.tvQuestion);
         radioGroup = view.findViewById(R.id.radioGroupOptions);
         option1 = view.findViewById(R.id.option1);
@@ -49,63 +66,74 @@ public class QuizPlayFragment extends Fragment {
         layoutResult = view.findViewById(R.id.layoutResult);
         tvResultStatus = view.findViewById(R.id.tvResultStatus);
 
+        // Repository 생성
         repository = new QuizRepository();
 
+        // 전달받은 과목 번호 읽기
         if (getArguments() != null) {
             currentSubjectId = getArguments().getInt("subject_id");
             loadQuestion(currentSubjectId, currentQuestionId);
         }
 
+        // 제출 버튼 클릭 시 정답 확인
         btnSubmit.setOnClickListener(v -> checkAnswer());
 
         return view;
     }
 
-    private void showFinalResult() {
-        if (getContext() == null) return;
-
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).addGold(earnedGold);
-        }
-
-        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                .setTitle("퀴즈 결과")
-                .setMessage(
-                        "총 푼 문제 수: " + totalSolvedCount + "문제\n" +
-                                "틀린 문제 수: " + (totalSolvedCount - correctCount) + "문제\n" +
-                                "맞춘 문제 수: " + correctCount + "문제\n" +
-                                "획득 골드: " + earnedGold + "G"
-                )
-                .setCancelable(false)
-                .setPositiveButton("확인", (dialog, which) -> closeFragment())
-                .show();
-    }
-
+    /**
+     * Firestore에서 문제를 불러온다.
+     * 다음 문제가 없으면 퀴즈 종료로 처리한다.
+     */
     private void loadQuestion(int subjectId, int questionId) {
         repository.getQuizQuestionFromFirestore(subjectId, questionId, new QuizRepository.OnQuestionFetchedListener() {
+
             @Override
             public void onSuccess(QuizQuestion question) {
-                if (!isAdded()) return;
+                // Fragment가 현재 화면에 붙어있지 않으면 작업 중단
+                if (!isAdded()) {
+                    return;
+                }
+
+                // 현재 문제 저장 후 화면에 표시
                 currentQuestion = question;
                 bindQuestion(question);
+
+                // 이전 문제에서 선택했던 답 초기화
                 radioGroup.clearCheck();
             }
 
             @Override
             public void onFailure(Exception e) {
-                if (currentQuestionId == 1) {
-                    tvQuestion.setText("문제를 찾을 수 없습니다");
-                } else {
-                    showFinalResult();
+                // Fragment가 현재 화면에 붙어있지 않으면 작업 중단
+                if (!isAdded()) {
+                    return;
                 }
+
+                // 첫 문제부터 못 불러오면 해당 과목 문제 데이터가 없는 상태
+                if (currentQuestionId == 1) {
+                    tvQuestion.setText("문제를 찾을 수 없습니다.");
+                    btnSubmit.setEnabled(false);
+                    return;
+                }
+
+                // 첫 문제는 있었고, 다음 문제를 못 불러왔다는 것은
+                // 현재 단계의 마지막 문제까지 모두 푼 상태라는 뜻
+                // 따라서 단계 클리어 조건을 검사한 뒤 결과창을 띄운다.
+                completeStageIfAllCorrect();
+                showFinalResult();
             }
         });
     }
 
+    /**
+     * 문제와 보기를 화면에 표시한다.
+     */
     private void bindQuestion(QuizQuestion question) {
         if (question == null) {
             return;
         }
+
         tvQuestion.setText(question.getQuestion());
         String[] options = question.getOptions();
 
@@ -133,44 +161,51 @@ public class QuizPlayFragment extends Fragment {
             }
         }
     }
-    private void checkAnswer(){
-        if(currentQuestion == null){
+
+    /**
+     * 사용자가 선택한 답이 정답인지 검사한다.
+     */
+    private void checkAnswer() {
+        if (currentQuestion == null) {
             return;
-        }
-        int checkedId = radioGroup.getCheckedRadioButtonId();
-        if(checkedId == -1) {
-            Toast.makeText(getContext(), "정답을 선택해주세요", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        int selectedIndex = -1;
-        if(checkedId == R.id.option1){
-            selectedIndex = 0;
-        }
-        else if (checkedId == R.id.option2) {
-            selectedIndex = 1;
-        }
-        else if(checkedId == R.id.option3){
-            selectedIndex = 2;
-        }
-        else if(checkedId == R.id.option4){
-            selectedIndex =3 ;
         }
 
-        if(selectedIndex == currentQuestion.getCorrectAnswerIndex()){
+        int checkedId = radioGroup.getCheckedRadioButtonId();
+
+        if (checkedId == -1) {
+            Toast.makeText(getContext(), "정답을 선택해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int selectedIndex = -1;
+
+        if (checkedId == R.id.option1) {
+            selectedIndex = 0;
+        } else if (checkedId == R.id.option2) {
+            selectedIndex = 1;
+        } else if (checkedId == R.id.option3) {
+            selectedIndex = 2;
+        } else if (checkedId == R.id.option4) {
+            selectedIndex = 3;
+        }
+
+        if (selectedIndex == currentQuestion.getCorrectAnswerIndex()) {
             handleResult(true);
-        } else{
+        } else {
             handleResult(false);
         }
     }
 
+    /**
+     * 정답/오답 결과를 처리한다.
+     */
     private void handleResult(boolean isCorrect) {
         btnSubmit.setEnabled(false);
-
         totalSolvedCount++;
 
         if (isCorrect) {
             correctCount++;
-            int goldToAdd = calculatedGold();
+            int goldToAdd = calculateGold();
             earnedGold += goldToAdd;
 
             playEffect(R.raw.success, "정답입니다!\n+" + goldToAdd + "G", true);
@@ -179,45 +214,146 @@ public class QuizPlayFragment extends Fragment {
         }
     }
 
-    private void playEffect(int rawResId, String statusText, boolean nextQuestion){
+    /**
+     * 이펙트를 재생한 뒤 다음 문제를 불러온다.
+     */
+    private void playEffect(int rawResId, String statusText, boolean moveNextQuestion) {
         layoutResult.setVisibility(View.VISIBLE);
         tvResultStatus.setText(statusText);
+
         lottieEffect.setAnimation(rawResId);
         lottieEffect.playAnimation();
 
-        lottieEffect.addAnimatorListener(new android.animation.Animator.AnimatorListener(){
+        lottieEffect.removeAllAnimatorListeners();
+        lottieEffect.addAnimatorListener(new android.animation.Animator.AnimatorListener() {
             @Override
-            public void onAnimationEnd(android.animation.Animator animation){
+            public void onAnimationStart(android.animation.Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
                 lottieEffect.removeAllAnimatorListeners();
+
                 layoutResult.postDelayed(() -> {
                     layoutResult.setVisibility(View.GONE);
                     btnSubmit.setEnabled(true);
 
-                    if(nextQuestion){
+                    if (moveNextQuestion) {
                         currentQuestionId++;
                         loadQuestion(currentSubjectId, currentQuestionId);
                     }
                 }, 500);
             }
-            @Override public void onAnimationStart(android.animation.Animator animation) {}
-            @Override public void onAnimationCancel(android.animation.Animator animation) {}
-            @Override public void onAnimationRepeat(android.animation.Animator animation) {}
+
+            @Override
+            public void onAnimationCancel(android.animation.Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(android.animation.Animator animation) {
+            }
         });
     }
 
-    private int calculatedGold(){
+    /**
+     * 문제 난이도에 따라 지급할 골드를 계산한다.
+     */
+    private int calculateGold() {
+        if (currentQuestion == null) {
+            return 0;
+        }
+
         String level = currentQuestion.getDifficultyLevel();
-        if("hard".equals(level)){
+
+        if ("hard".equals(level)) {
             return 30;
         }
-        if("normal".equals(level)){
+
+        if ("normal".equals(level)) {
             return 20;
         }
+
         return 10;
     }
 
-    private void closeFragment(){
-        if(getActivity() instanceof MainActivity) {
+    /**
+     * 모든 문제를 맞힌 경우에만 현재 단계를 클리어 처리하고
+     * 다음 단계를 해금한다.
+     *
+     * 현재는 만점 조건:
+     * correctCount == totalSolvedCount
+     *
+     * 나중에 80점 이상 조건으로 바꾸고 싶으면
+     * 이 함수의 조건만 변경하면 된다.
+     */
+    private void completeStageIfAllCorrect() {
+        // 문제를 하나도 안 풀었으면 종료
+        if (totalSolvedCount == 0) {
+            return;
+        }
+
+        // 모든 문제를 맞힌 경우만 클리어 처리
+        boolean isPerfectClear = (correctCount == totalSolvedCount);
+
+        if (!isPerfectClear) {
+            return;
+        }
+
+        SharedPreferences prefs = requireContext()
+                .getSharedPreferences("quiz_progress", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // 현재 단계 clear = 1
+        editor.putInt("stage_" + currentSubjectId + "_clear", 1);
+
+        // 다음 단계 before_clear = 현재 단계 clear 값
+        editor.putInt("stage_" + (currentSubjectId + 1) + "_before_clear", 1);
+
+        editor.apply();
+    }
+
+    /**
+     * 퀴즈 결과 다이얼로그를 출력한다.
+     */
+    private void showFinalResult() {
+        if (getContext() == null) {
+            return;
+        }
+
+        // 획득 골드 반영
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).addGold(earnedGold);
+        }
+
+        boolean isPerfectClear = (totalSolvedCount > 0 && correctCount == totalSolvedCount);
+
+        String clearMessage;
+        if (isPerfectClear) {
+            clearMessage = "단계 클리어: 성공\n다음 단계가 해금되었습니다.\n\n";
+        } else {
+            clearMessage = "단계 클리어: 실패\n모든 문제를 맞혀야 다음 단계가 해금됩니다.\n\n";
+        }
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("퀴즈 결과")
+                .setMessage(
+                        clearMessage +
+                                "총 푼 문제 수: " + totalSolvedCount + "문제\n" +
+                                "틀린 문제 수: " + (totalSolvedCount - correctCount) + "문제\n" +
+                                "맞춘 문제 수: " + correctCount + "문제\n" +
+                                "획득 골드: " + earnedGold + "G"
+                )
+                .setCancelable(false)
+                .setPositiveButton("확인", (dialog, which) -> closeFragment())
+                .show();
+    }
+
+    /**
+     * 현재 프래그먼트를 닫는다.
+     */
+    private void closeFragment() {
+        if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).closeCurrentFragment();
         }
     }
