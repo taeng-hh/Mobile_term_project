@@ -104,8 +104,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="6dp"
-        >
+        android:elevation="6dp">
 
         <TextView
             android:id="@+id/tv_message"
@@ -131,8 +130,7 @@
         android:src="@drawable/button_setting"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="6dp"
-        />
+        android:elevation="6dp" />
 
     <!-- 어두운 배경 오버레이 -->
     <View
@@ -146,7 +144,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="6dp"/>
-
 
     <!-- 도움말 팝업 -->
     <LinearLayout
@@ -164,8 +161,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="8dp">
 
-
-    <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -196,6 +192,7 @@
             android:id="@+id/btnCloseHelpPopup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
             android:text="닫기"
             android:textColor="#2B2B2B"
             android:background="@drawable/bg_btn_inset"
@@ -283,6 +280,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp"
             android:text="닫기"
             android:textColor="#2B2B2B"
             android:background="@drawable/bg_btn_inset"
@@ -373,6 +371,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp"
             android:text="닫기"
             android:textColor="#2B2B2B"
             android:background="@drawable/bg_btn_inset"
