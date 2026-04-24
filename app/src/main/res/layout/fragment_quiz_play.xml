@@ -1,120 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!-- 문제 풀이 화면 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<ScrollView
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:fillViewport="true"
-    android:padding="16dp">
+    android:background="#E6F0F2">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="20dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-
-        <!-- 문제 문장 -->
-        <TextView
-            android:id="@+id/tvQuestion"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="문제가 여기에 표시됩니다."
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <!-- 보기 4개를 묶는 그룹 -->
-        <RadioGroup
-            android:id="@+id/radioGroupOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="84dp" />
 
-            <!-- 1번 보기 -->
-            <RadioButton
-                android:id="@+id/option1"
-                android:layout_width="wrap_content"
+            <!-- 문제 카드 -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="보기 1" />
+                android:minHeight="150dp"
+                android:background="@drawable/bg_quiz_question"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="22dp">
 
-            <!-- 2번 보기 -->
-            <RadioButton
-                android:id="@+id/option2"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.25"
+                    android:text="문제가 여기에 표시됩니다."
+                    android:textColor="#2B2B2B"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 보기 영역 -->
+            <RadioGroup
+                android:id="@+id/radioGroupOptions"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="보기 2" />
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
-            <!-- 3번 보기 -->
-            <RadioButton
-                android:id="@+id/option3"
-                android:layout_width="wrap_content"
+                <RadioButton
+                    android:id="@+id/option1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_message_box"
+                    app:buttonTint="@color/quiz_radio_color"
+                    android:paddingStart="16dp"
+                    android:paddingTop="18dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="18dp"
+                    android:text="보기 1"
+                    android:textColor="#2B2B2B"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/option2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_message_box"
+                    app:buttonTint="@color/quiz_radio_color"
+                    android:paddingStart="16dp"
+                    android:paddingTop="18dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="18dp"
+                    android:text="보기 2"
+                    android:textColor="#2B2B2B"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/option3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_message_box"
+                    app:buttonTint="@color/quiz_radio_color"
+                    android:paddingStart="16dp"
+                    android:paddingTop="18dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="18dp"
+                    android:text="보기 3"
+                    android:textColor="#2B2B2B"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/option4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_message_box"
+                    app:buttonTint="@color/quiz_radio_color"
+                    android:paddingStart="16dp"
+                    android:paddingTop="18dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="18dp"
+                    android:text="보기 4"
+                    android:textColor="#2B2B2B"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RadioGroup>
+
+            <!-- 제출 버튼 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:text="보기 3" />
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_submit"
+                android:backgroundTint="@null"
+                android:elevation="6dp"
+                android:minHeight="0dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="다음"
+                android:textAllCaps="false"
+                android:textColor="#2B2B2B"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <!-- 4번 보기 -->
-            <RadioButton
-                android:id="@+id/option4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="보기 4" />
-        </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
 
-        <!-- 정답 제출 버튼 -->
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="제출" />
-    </LinearLayout>
-</ScrollView>
-
-<!-- 정답입니다, 오답입니다 확인 이펙트 -->
+    <!-- 정답 / 오답 이펙트 -->
     <FrameLayout
         android:id="@+id/layoutResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:clickable="true"
-        android:focusable="true">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#CCFFFFFF"/>
-    <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/round_white_bg"
-        android:elevation="5dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp">
-        <!-- lottie files에서 제공하는 이펙트 사용 -->
-<com.airbnb.lottie.LottieAnimationView
-    android:id="@+id/lottieEffect"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
-    android:layout_gravity="center"
-    android:visibility="visible"
-    app:lottie_autoPlay="false"
-    app:lottie_loop="false"/>
-    <TextView
-        android:id="@+id/tvResultStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="정답입니다!"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-    </LinearLayout>
+        android:focusable="true"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000" />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_popup_panel"
+            android:elevation="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieEffect"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false" />
+
+            <TextView
+                android:id="@+id/tvResultStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="정답입니다!"
+                android:textColor="#2B2B2B"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </FrameLayout>
+
 </FrameLayout>
