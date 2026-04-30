@@ -15,6 +15,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
+import androidx.lifecycle.ViewModelProvider;
 
 public class QuizPlayFragment extends Fragment {
 
@@ -44,6 +46,11 @@ public class QuizPlayFragment extends Fragment {
     // 현재 문제 번호
     private int currentQuestionId = 1;
 
+    private CharacterViewModel characterViewModel;
+    private ImageView quizFaceImage;
+    private ImageView quizHatImage;
+    private ImageView quizClothesImage;
+
     public QuizPlayFragment() {
         // 기본 생성자
     }
@@ -65,6 +72,36 @@ public class QuizPlayFragment extends Fragment {
         lottieEffect = view.findViewById(R.id.lottieEffect);
         layoutResult = view.findViewById(R.id.layoutResult);
         tvResultStatus = view.findViewById(R.id.tvResultStatus);
+        quizClothesImage = view.findViewById(R.id.quizClothesImage);
+
+        quizFaceImage = view.findViewById(R.id.quizFaceImage);
+        quizHatImage = view.findViewById(R.id.quizHatImage);
+
+        characterViewModel = new ViewModelProvider(requireActivity()).get(CharacterViewModel.class);
+
+        characterViewModel.getFace().observe(getViewLifecycleOwner(), resId -> {
+            if (resId != null && resId != 0) {
+                quizFaceImage.setImageResource(resId);
+            } else {
+                quizFaceImage.setImageResource(R.drawable.face_default);
+            }
+        });
+
+        characterViewModel.getHat().observe(getViewLifecycleOwner(), resId -> {
+            if (resId != null && resId != 0) {
+                quizHatImage.setImageResource(resId);
+            } else {
+                quizHatImage.setImageDrawable(null);
+            }
+        });
+
+        characterViewModel.getClothes().observe(getViewLifecycleOwner(), resId -> {
+            if (resId != null && resId != 0) {
+                quizClothesImage.setImageResource(resId);
+            } else {
+                quizClothesImage.setImageDrawable(null);
+            }
+        });
 
         // Repository 생성
         repository = new QuizRepository();
@@ -211,12 +248,16 @@ public class QuizPlayFragment extends Fragment {
         totalSolvedCount++;
 
         if (isCorrect) {
+            quizFaceImage.setImageResource(R.drawable.face_happy);
+
             correctCount++;
             int goldToAdd = calculateGold();
             earnedGold += goldToAdd;
 
             playEffect(R.raw.success, "정답입니다!\n+" + goldToAdd + "G", true);
         } else {
+            quizFaceImage.setImageResource(R.drawable.face_sad);
+
             playEffect(R.raw.fail, "오답입니다!", true);
         }
     }

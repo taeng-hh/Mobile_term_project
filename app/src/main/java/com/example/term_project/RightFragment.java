@@ -56,7 +56,11 @@ public class RightFragment extends Fragment {
             new DressItem(R.drawable.thumb_hat_crown, R.drawable.hat_crown),
             new DressItem(R.drawable.thumb_hat_rabbit, R.drawable.hat_rabbit),
             new DressItem(R.drawable.thumb_hat_pokemon, R.drawable.hat_pokemon),
-            new DressItem(R.drawable.thumb_hat_santa, R.drawable.hat_santa)
+            new DressItem(R.drawable.thumb_hat_santa, R.drawable.hat_santa),
+            new DressItem(R.drawable.thumb_hat_gojo, R.drawable.hat_gojo),
+            new DressItem(R.drawable.thumb_hat_sunglass, R.drawable.hat_sunglass),
+            new DressItem(R.drawable.thumb_hat_snowman, R.drawable.hat_snowman),
+            new DressItem(R.drawable.thumb_hat_astronaut, R.drawable.hat_astronaut)
     );
 
     private final List<DressItem> clothesList = Arrays.asList(
@@ -67,7 +71,12 @@ public class RightFragment extends Fragment {
             new DressItem(R.drawable.thumb_clothes_santa, R.drawable.clothes_santa),
             new DressItem(R.drawable.thumb_clothes_hoodie, R.drawable.clothes_hoodie),
             new DressItem(R.drawable.thumb_clothes_poor, R.drawable.clothes_poor),
-            new DressItem(R.drawable.thumb_clothes_rabbit, R.drawable.clothes_rabbit)
+            new DressItem(R.drawable.thumb_clothes_rabbit, R.drawable.clothes_rabbit),
+            new DressItem(R.drawable.thumb_clothes_snowman, R.drawable.clothes_snowman),
+            new DressItem(R.drawable.thumb_clothes_gojo, R.drawable.clothes_gojo),
+            new DressItem(R.drawable.thumb_clothes_brucelee, R.drawable.clothes_brucelee),
+            new DressItem(R.drawable.thumb_clothes_astronaut, R.drawable.clothes_astronaut)
+
     );
 
     private final List<Integer> interiorList = Arrays.asList(
