@@ -17,6 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.activity.OnBackPressedCallback;
+import android.app.Dialog;
+import android.view.Window;
+import androidx.appcompat.widget.AppCompatButton;
 
 public class QuizPlayFragment extends Fragment {
 
@@ -120,6 +124,16 @@ public class QuizPlayFragment extends Fragment {
 
         // 제출 버튼 클릭 시 정답 확인
         btnSubmit.setOnClickListener(v -> checkAnswer());
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        showExitQuizDialog();
+                    }
+                }
+        );
 
         return view;
     }
@@ -419,6 +433,39 @@ public class QuizPlayFragment extends Fragment {
         }
     }
 
+    private void showExitQuizDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        View dialogView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.dialog_quiz_exit, null);
+
+        dialog.setContentView(dialogView);
+        dialog.setCancelable(true);
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setDimAmount(0.55f);
+        }
+
+        AppCompatButton btnStay = dialogView.findViewById(R.id.btnStay);
+        AppCompatButton btnExit = dialogView.findViewById(R.id.btnExit);
+
+        btnStay.setOnClickListener(v -> dialog.dismiss());
+
+        btnExit.setOnClickListener(v -> {
+            dialog.dismiss();
+            closeFragment();
+        });
+
+        dialog.show();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                    (int) (getResources().getDisplayMetrics().widthPixels * 0.82),
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+        }
+    }
     /**
      * 사용자가 선택한 보기에 따라 라디오 버튼의 배경을 업데이트한다.
      */
