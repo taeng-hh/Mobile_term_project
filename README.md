@@ -1,6 +1,15 @@
-# Mobile_term_project
-## test
-### test2
+# AImigo
+
+### Planning Background
+In the case of students with overlapping COVID times, we found it difficult to complete learning in the first and second grades of building a lot of concepts, and we found the problem that using it too much like a habit often forgets its conceptual meaning.
+So, we decided to plan the development of the application because I hope that learning would be fun.
+### Meaning of app name
+It is a combination of AI and amigo, which means friend in Spanish.
+We hope this app will be your friend by taking a quiz related to AI.
+### Structure of application
+<img width="576" height="432" alt="전체 앱 시스템 구조도" src="https://github.com/user-attachments/assets/0ec8922e-14f4-4b2e-b24b-af3dd34bc7ed" />
+
+---
 ### 로그인 기능
 
 회원가입 후 로그인 가능. 메인 화면 설정창에서 로그아웃 가능</br>
